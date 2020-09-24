@@ -1,4 +1,4 @@
-%if 0%{?fedora} > 12 || 0%{?epel} >= 7
+%if 0%{?fedora} > 12 || 0%{?rhel} >= 7
 %bcond_without python3
 %else
 %bcond_with python3
