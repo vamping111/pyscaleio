@@ -1,4 +1,4 @@
-%if 0%{?fedora} > 12 || 0%{?epel} >= 7
+%if 0%{?fedora} > 12 || 0%{?rhel} >= 7
 %bcond_without python3
 %else
 %bcond_with python3
@@ -24,7 +24,7 @@ Python library that provides convenient way to interact with ScaleIO/VxFlex REST
 
 Name:    python-scaleio
 Version: 0.1.7
-Release: 1.CROC1%{?dist}
+Release: 1.CROC2%{?dist}
 Summary: ScaleIO/VxFlex API client
 
 Group:   Development/Tools
