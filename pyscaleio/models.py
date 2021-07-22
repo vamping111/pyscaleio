@@ -214,6 +214,29 @@ class System(EditableResource):
     def is_restricted(self):
         return self["restrictedSdcModeEnabled"]
 
+    def create_snapshots(self, snapshot_defs):
+        """Creates a snapshot of one or more volumes.
+
+        :param list(dict) snapshot_defs: List of snapshot definitions
+                                         {"volumeId": str, "snapshotName": str}
+                                         where volumeId is ID of source volume and
+                                         snapshotName is optional name for the snapshot.
+
+        :returns: Snapshot group ID and list of created volume IDs.
+        """
+
+        return self.perform("snapshotVolumes", {"snapshotDefs": snapshot_defs})
+
+    def remove_snapshots(self, group_id):
+        """Removes all snapshots that belong to a specified consistency group.
+
+        :param group_id: ID of the consistency group.
+
+        :returns: The number of volumes that were removed.
+        """
+
+        return self.perform("removeConsistencyGroupSnapshots", {"snapGroupId": group_id})
+
 
 class ProtectionDomain(MutableResource):
     """ProtectionDomain resource model."""
