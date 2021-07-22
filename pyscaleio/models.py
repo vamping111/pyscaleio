@@ -448,6 +448,7 @@ class Volume(MutableResource):
         "storagePoolId": String(),
         "volumeType": String(choices=constants.VOLUME_TYPES),
         "ancestorVolumeId": String(optional=True),
+        "consistencyGroupId": String(optional=True),
     }
     __parents__ = frozenset([
         ("ancestorVolumeId", "Volume"),
@@ -514,6 +515,10 @@ class Volume(MutableResource):
     @property
     def exports(self):
         return ExportsInfo(self.get("mappedSdcInfo"))
+
+    @property
+    def consistency_group(self):
+        return self.get("consistencyGroupId")
 
     @property
     def path(self):
