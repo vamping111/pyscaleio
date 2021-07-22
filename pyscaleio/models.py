@@ -545,12 +545,11 @@ class Volume(MutableResource):
         :param name: snapshot name
         """
 
-        snapshot = {"volumeId": self["id"]}
+        snapshot_def = {"volumeId": self["id"]}
         if name:
-            snapshot["snapshotName"] = name
+            snapshot_def["snapshotName"] = name
 
-        result = self._client.system.perform(
-            "snapshotVolumes", {"snapshotDefs": [snapshot]})
+        result = self._client.system.create_snapshots([snapshot_def])
 
         return Volume(result["volumeIdList"][0])
 
