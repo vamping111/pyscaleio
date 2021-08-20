@@ -31,6 +31,22 @@ MONTH_SECONDS = 30 * DAY_SECONDS
 """Seconds in average month."""
 
 
+MEDIA_TYPE_HDD = "HDD"
+"""HDD storage pool media type."""
+
+MEDIA_TYPE_SSD = "SSD"
+"""SSD storage pool media type."""
+
+MEDIA_TYPE_TRANSITIONAl = "Transitional"
+"""Transitional storage pool media type."""
+
+MEDIA_TYPES = [
+    MEDIA_TYPE_HDD,
+    MEDIA_TYPE_SSD,
+    MEDIA_TYPE_TRANSITIONAl,
+]
+"""Valid storage pool media types."""
+
 VOLUME_TYPE_THIN = "ThinProvisioned"
 """Volume type with thin provisioning."""
 

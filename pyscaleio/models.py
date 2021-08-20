@@ -258,6 +258,7 @@ class StoragePool(MutableResource):
     """StoragePool resource model."""
 
     __scheme__ = {
+        "mediaType": String(choices=constants.MEDIA_TYPES),
         "name": String(optional=True),
         "protectionDomainId": String(),
         "checksumEnabled": Bool(),
@@ -289,7 +290,7 @@ class StoragePool(MutableResource):
 
     @pyscaleio.inject
     @classmethod
-    def create(cls, client, domain, checksum=False, rfcache=False, name=None, **kwargs):
+    def create(cls, client, domain, media_type, checksum=False, rfcache=False, name=None, **kwargs):
         """Creates StoragePool instance.
 
         :param domain: protection domain id (required)
@@ -303,6 +304,7 @@ class StoragePool(MutableResource):
             "protectionDomainId": domain,
             "checksumEnabled": utils.bool_to_str(checksum),
             "useRfcache": utils.bool_to_str(rfcache),
+            "mediaType": media_type,
         }
         if name:
             pool["name"] = name
@@ -316,6 +318,10 @@ class StoragePool(MutableResource):
     @property
     def checksum_enabled(self):
         return self["checksumEnabled"]
+
+    @property
+    def media_type(self):
+        return self["mediaType"]
 
     @property
     def rfcache_enabled(self):

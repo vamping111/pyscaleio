@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import pytest
 
 from pyscaleio import ProtectionDomain, StoragePool, Volume
-from pyscaleio import exceptions
+from pyscaleio import constants, exceptions
 
 from . import _get_test_name
 
@@ -20,9 +20,11 @@ def storage_pool(request):
 
 def test_create_storage_pool(domain):
 
-    pool = StoragePool.create(domain["id"], name=_get_test_name(5))
+    pool = StoragePool.create(domain["id"], media_type=constants.MEDIA_TYPE_HDD,
+                              name=_get_test_name(5))
 
     assert isinstance(pool, StoragePool)
+    assert pool.media_type == constants.MEDIA_TYPE_HDD
     assert pool.name == _get_test_name(5)
     assert pool["protectionDomainId"] == domain["id"]
 
