@@ -109,6 +109,28 @@ class BaseResource(Mapping):
         ]
 
     @pyscaleio.inject
+    @classmethod
+    def query_selected_statistics(cls, client, properties, instance_ids=None):
+        """Queries selected instance statistics.
+
+        :param properties: list of properties to fetch
+        :param instance_ids: list of instance ids
+
+        :returns: properties values for all or specified instances
+        """
+
+        action_data = {"properties": properties}
+
+        if instance_ids:
+            action_data["ids"] = instance_ids
+        else:
+            action_data["allIds"] = []
+
+        return client.perform_action_on_type(
+            cls._get_name(), "querySelectedStatistics", action_data
+        )
+
+    @pyscaleio.inject
     def __init__(self, client, instance_id=None, instance=None):
         self._client = client
         self._scheme = {}
