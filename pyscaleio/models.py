@@ -156,6 +156,11 @@ class BaseResource(Mapping):
     def links(self):
         return self["links"]
 
+    def get_statistics(self):
+        """Returns instance's related statistics."""
+
+        return self._client.get_related(self._get_name(), self["id"], "Statistics")
+
     def _validate(self, instance):
         """Validates the instance if resource according to scheme.
 
