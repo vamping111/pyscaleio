@@ -354,6 +354,14 @@ class StoragePool(MutableResource):
     def rfcache_enabled(self):
         return self["useRfcache"]
 
+    def get_volumes(self):
+        """Returns list of Volume instances connected to current pool."""
+
+        return [
+            Volume(instance=volume) for volume in
+            self._client.get_related(self._get_name(), self["id"], "Volume")
+        ]
+
     def create_volume(self, size, **kwargs):
         """Creates Volume instance in current StoragePool.
 
