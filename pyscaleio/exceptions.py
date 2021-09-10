@@ -2,9 +2,12 @@ from psys import Error
 
 
 class ScaleIOError(Error):
-    def __init__(self, code, message, error_code=None):
+    def __init__(self, code, message, error_code=None, details=None):
         super(ScaleIOError, self).__init__(
-            "ScaleIOError: code={0}, message={1}", code, message
+            "ScaleIOError: code={0}, message={1}{2}", code, message,
+            ": {0}".format(
+                ". ".join(detail["errorMessage"] for detail in details)
+            ) if details is not None else ""
         )
         self.status_code = code
         self.error_code = error_code or 0
