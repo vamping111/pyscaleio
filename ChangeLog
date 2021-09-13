@@ -1,6 +1,24 @@
 CHANGES
 =======
 
+* Add methods for consistency group creation and remove
+* Use create_snapshots() method in Volume model
+* Add consistency group property to Volume model
+* Add tests for System model
+* Add required 'mediaType' parameter to storage pool
+
+0.1.8
+-----
+
+* test spec sha
+* spec: bump release
+* spec: enable py3 build for rhel
+* spec: update requirements for c2 build
+
+0.1.7
+-----
+
+* Update changelog and bump version
 * Update RPM version and changelog
 * Update develop status in setup.cfg
 * Add VxFlex term to project description
