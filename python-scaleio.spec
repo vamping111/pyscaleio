@@ -23,8 +23,8 @@
 Python library that provides convenient way to interact with ScaleIO/VxFlex REST API.}
 
 Name:    python-scaleio
-Version: 0.1.7
-Release: 1.CROC2%{?dist}
+Version: 0.1.8
+Release: 1.CROC1%{?dist}
 Summary: ScaleIO/VxFlex API client
 
 Group:   Development/Tools
@@ -137,6 +137,13 @@ export PBR_VERSION=%version
 
 
 %changelog
+* Mon Sep 13 2021 Andrey Kulaev <akulaev@croc.ru> - 0.1.8-1
+- Add methods for consistency group creation and remove
+- Use create_snapshots() method in Volume model
+- Add consistency group property to Volume model
+- Add tests for System model
+- Add required 'mediaType' parameter to storage pool
+
 * Tue Feb 19 2019 Mikhail Ushanov <gm.mephisto@gmail.com> - 0.1.7-1
 - New version
 - Update license information
