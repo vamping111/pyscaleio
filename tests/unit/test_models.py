@@ -83,6 +83,16 @@ def mock_volume(override=None):
     return volume_model
 
 
+def mock_system(override=None):
+    system_model = {
+        "id": str(uuid.uuid4()),
+        "name": str(uuid.uuid4()),
+        "restrictedSdcModeEnabled": False,
+    }
+    system_model.update(override or {})
+    return system_model
+
+
 def test_base_model_name(client):
 
     assert BaseResource.__resource__ is None
@@ -306,6 +316,34 @@ def test_model_all_by_ids(client, modelklass):
         volumes = klass.all(instance_ids="test2")
         assert len(volumes) == 1
         assert volumes[0]["id"] == "test2"
+
+
+@pytest.mark.parametrize("snapshot_defs", [
+    [],
+    [{"volumeId": "volume_1", "snapshotName": "volume_1_name"}],
+    [{"volumeId": "volume_1"}, {"volumeId": "volume_2"}],
+])
+def test_system_create_snapshots(client, snapshot_defs):
+
+    system = System(instance=mock_system())
+
+    with mock.patch("pyscaleio.ScaleIOClient.perform_action_on") as perform_action_mock:
+        system.create_snapshots(snapshot_defs)
+
+    perform_action_mock.assert_called_once_with("System", system["id"], "snapshotVolumes",
+                                                {"snapshotDefs": snapshot_defs})
+
+
+def test_system_remove_snapshots(client):
+
+    system = System(instance=mock_system())
+
+    with mock.patch("pyscaleio.ScaleIOClient.perform_action_on") as perform_action_mock:
+        system.remove_snapshots("consistency_group_id")
+
+    perform_action_mock.assert_called_once_with("System", system["id"],
+                                                "removeConsistencyGroupSnapshots",
+                                                {"snapGroupId": "consistency_group_id"})
 
 
 def test_volume_model(client):

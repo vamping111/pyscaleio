@@ -125,10 +125,6 @@ def test_volume_throttle(storage_pool, system):
     assert volume.exports[0]["limitIops"] == 2000
     assert volume.exports[0]["limitBwInMbps"] == 1024
 
-    # FIXME: not working due to request validation error
-    with pytest.raises(exceptions.ScaleIOError):
-        volume.throttle(sdc_id=sdc["id"], mbps=0, iops=0)
-
     volume.throttle(sdc_id=sdc["id"], mbps=0)
     volume.update()
     assert volume.exports[0]["limitBwInMbps"] == 0

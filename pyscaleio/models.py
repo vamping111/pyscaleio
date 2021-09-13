@@ -214,6 +214,29 @@ class System(EditableResource):
     def is_restricted(self):
         return self["restrictedSdcModeEnabled"]
 
+    def create_snapshots(self, snapshot_defs):
+        """Creates a snapshot of one or more volumes.
+
+        :param list(dict) snapshot_defs: List of snapshot definitions
+                                         {"volumeId": str, "snapshotName": str}
+                                         where volumeId is ID of source volume and
+                                         snapshotName is optional name for the snapshot.
+
+        :returns: Snapshot group ID and list of created volume IDs.
+        """
+
+        return self.perform("snapshotVolumes", {"snapshotDefs": snapshot_defs})
+
+    def remove_snapshots(self, group_id):
+        """Removes all snapshots that belong to a specified consistency group.
+
+        :param group_id: ID of the consistency group.
+
+        :returns: The number of volumes that were removed.
+        """
+
+        return self.perform("removeConsistencyGroupSnapshots", {"snapGroupId": group_id})
+
 
 class ProtectionDomain(MutableResource):
     """ProtectionDomain resource model."""
@@ -235,6 +258,7 @@ class StoragePool(MutableResource):
     """StoragePool resource model."""
 
     __scheme__ = {
+        "mediaType": String(choices=constants.MEDIA_TYPES),
         "name": String(optional=True),
         "protectionDomainId": String(),
         "checksumEnabled": Bool(),
@@ -266,7 +290,7 @@ class StoragePool(MutableResource):
 
     @pyscaleio.inject
     @classmethod
-    def create(cls, client, domain, checksum=False, rfcache=False, name=None, **kwargs):
+    def create(cls, client, domain, media_type, checksum=False, rfcache=False, name=None, **kwargs):
         """Creates StoragePool instance.
 
         :param domain: protection domain id (required)
@@ -280,6 +304,7 @@ class StoragePool(MutableResource):
             "protectionDomainId": domain,
             "checksumEnabled": utils.bool_to_str(checksum),
             "useRfcache": utils.bool_to_str(rfcache),
+            "mediaType": media_type,
         }
         if name:
             pool["name"] = name
@@ -293,6 +318,10 @@ class StoragePool(MutableResource):
     @property
     def checksum_enabled(self):
         return self["checksumEnabled"]
+
+    @property
+    def media_type(self):
+        return self["mediaType"]
 
     @property
     def rfcache_enabled(self):
@@ -425,6 +454,7 @@ class Volume(MutableResource):
         "storagePoolId": String(),
         "volumeType": String(choices=constants.VOLUME_TYPES),
         "ancestorVolumeId": String(optional=True),
+        "consistencyGroupId": String(optional=True),
     }
     __parents__ = frozenset([
         ("ancestorVolumeId", "Volume"),
@@ -493,6 +523,10 @@ class Volume(MutableResource):
         return ExportsInfo(self.get("mappedSdcInfo"))
 
     @property
+    def consistency_group(self):
+        return self.get("consistencyGroupId")
+
+    @property
     def path(self):
         device_name = config.VOLUME_NAME.format(
             system_id=self._client.system["id"],
@@ -522,12 +556,11 @@ class Volume(MutableResource):
         :param name: snapshot name
         """
 
-        snapshot = {"volumeId": self["id"]}
+        snapshot_def = {"volumeId": self["id"]}
         if name:
-            snapshot["snapshotName"] = name
+            snapshot_def["snapshotName"] = name
 
-        result = self._client.system.perform(
-            "snapshotVolumes", {"snapshotDefs": [snapshot]})
+        result = self._client.system.create_snapshots([snapshot_def])
 
         return Volume(result["volumeIdList"][0])
 
