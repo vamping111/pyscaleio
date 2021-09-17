@@ -379,12 +379,11 @@ class VTree(BaseResource):
 
     __scheme__ = {
         "name": String(optional=True),
-        "baseVolumeId": String(),
+        "rootVolumes": List(String()),
         "storagePoolId": String(),
     }
 
     __parents__ = frozenset([
-        ("baseVolumeId", "Volume"),
         ("storagePoolId", "StoragePool")
     ])
 
