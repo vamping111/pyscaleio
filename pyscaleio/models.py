@@ -681,3 +681,14 @@ class Volume(MutableResource):
         """
 
         return super(Volume, self).delete({"removeMode": mode})
+
+    def overwrite(self, source):
+        """Overwrites volume content with the content of the source Volume.
+        Both Volumes must belong to the same VTree.
+
+        :param source: Source Volume ID.
+        """
+
+        return self.perform("overwriteVolumeContent", {
+            "srcVolumeId": source
+        })
