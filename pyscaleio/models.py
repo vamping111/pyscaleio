@@ -692,3 +692,13 @@ class Volume(MutableResource):
         return self.perform("overwriteVolumeContent", {
             "srcVolumeId": source
         })
+
+    def migrate(self, dest_sp_id):
+        """Migrates an entire VTree from one Storage Pool to another Storage Pool.
+
+        :param dest_sp_id: Destination Storage Pool ID.
+        """
+
+        self.perform("migrateVTree", {
+            "destSPId": dest_sp_id
+        })
