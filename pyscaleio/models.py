@@ -460,7 +460,7 @@ class ExportsInfo(Sequence):
         "sdcIp": String(),
         "limitIops": Integer(),
         "limitBwInMbps": Integer()
-    }), optional=True)
+    }, ignore_unknown=True), optional=True)
 
     def __init__(self, data=None):
         self._data = data or []
