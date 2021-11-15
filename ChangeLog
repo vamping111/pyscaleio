@@ -1,6 +1,14 @@
 CHANGES
 =======
 
+* Add storage pool's volumes getter
+* Add instance's statistics getter
+* Add build id generation to release name
+* Add query selected statistics method to base resource
+
+0.1.9
+-----
+
 * Add methods for consistency group creation and remove
 * Use create_snapshots() method in Volume model
 * Add consistency group property to Volume model
