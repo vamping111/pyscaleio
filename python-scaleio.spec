@@ -21,10 +21,11 @@
 %global project_name pyscaleio
 %global project_description %{expand:
 Python library that provides convenient way to interact with ScaleIO/VxFlex REST API.}
+%define buildid @BUILDID@
 
 Name:    python-scaleio
 Version: 0.1.8
-Release: 1.CROC1%{?dist}
+Release: 1.CROC1%{?buildid}%{?dist}
 Summary: ScaleIO/VxFlex API client
 
 Group:   Development/Tools

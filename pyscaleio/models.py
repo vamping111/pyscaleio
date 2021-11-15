@@ -109,6 +109,28 @@ class BaseResource(Mapping):
         ]
 
     @pyscaleio.inject
+    @classmethod
+    def query_selected_statistics(cls, client, properties, instance_ids=None):
+        """Queries selected instance statistics.
+
+        :param properties: list of properties to fetch
+        :param instance_ids: list of instance ids
+
+        :returns: properties values for all or specified instances
+        """
+
+        action_data = {"properties": properties}
+
+        if instance_ids:
+            action_data["ids"] = instance_ids
+        else:
+            action_data["allIds"] = []
+
+        return client.perform_action_on_type(
+            cls._get_name(), "querySelectedStatistics", action_data
+        )
+
+    @pyscaleio.inject
     def __init__(self, client, instance_id=None, instance=None):
         self._client = client
         self._scheme = {}
@@ -133,6 +155,11 @@ class BaseResource(Mapping):
     @property
     def links(self):
         return self["links"]
+
+    def get_statistics(self):
+        """Returns instance's related statistics."""
+
+        return self._client.get_related(self._get_name(), self["id"], "Statistics")
 
     def _validate(self, instance):
         """Validates the instance if resource according to scheme.
@@ -326,6 +353,14 @@ class StoragePool(MutableResource):
     @property
     def rfcache_enabled(self):
         return self["useRfcache"]
+
+    def get_volumes(self):
+        """Returns list of Volume instances connected to current pool."""
+
+        return [
+            Volume(instance=volume) for volume in
+            self._client.get_related(self._get_name(), self["id"], "Volume")
+        ]
 
     def create_volume(self, size, **kwargs):
         """Creates Volume instance in current StoragePool.

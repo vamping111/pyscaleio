@@ -236,6 +236,14 @@ class ScaleIOClient(object):
             type=resourse, id=resourse_id)
         )
 
+    @utils.drop_none
+    def get_related(self, resource, resource_id, related_resource):
+        """Returns instance's related resource instances."""
+
+        return self._session.get("instances/{type}::{id}/relationships/{rel}".format(
+            type=resource, id=resource_id, rel=related_resource)
+        )
+
     def create_instance_of(self, resource, resource_data):
         """Creates instance of specified resource."""
 
