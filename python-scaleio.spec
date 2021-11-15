@@ -24,7 +24,7 @@ Python library that provides convenient way to interact with ScaleIO/VxFlex REST
 %define buildid @BUILDID@
 
 Name:    python-scaleio
-Version: 0.1.8
+Version: 0.1.9
 Release: 1.CROC1%{?buildid}%{?dist}
 Summary: ScaleIO/VxFlex API client
 
@@ -138,6 +138,12 @@ export PBR_VERSION=%version
 
 
 %changelog
+* Mon Nov 15 2021 Andrey Kulaev <akulaev@croc.ru> - 0.1.9-1
+- Add storage pool's volumes getter
+- Add instance's statistics getter
+- Add build id generation to release name
+- Add query selected statistics method to base resource
+
 * Mon Sep 13 2021 Andrey Kulaev <akulaev@croc.ru> - 0.1.8-1
 - Add methods for consistency group creation and remove
 - Use create_snapshots() method in Volume model
