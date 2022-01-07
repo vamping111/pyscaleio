@@ -702,3 +702,8 @@ class Volume(MutableResource):
         self.perform("migrateVTree", {
             "destSPId": dest_sp_id
         })
+
+    def get_vtree(self):
+        """Returns volume's parent VTree."""
+
+        return VTree.one(self["vtreeId"])
