@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+* Ignore unknown fields in ExportsInfo for SIO 3.6 compatibility
+
+0.1.10
+------
+
 * Add storage pool's volumes getter
 * Add instance's statistics getter
 * Add build id generation to release name
