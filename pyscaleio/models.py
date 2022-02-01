@@ -755,6 +755,11 @@ class Volume(MutableResource):
             "destSPId": dest_sp_id
         })
 
+    def get_storage_pool(self):
+        """Returns volume's parent StoragePool."""
+
+        return StoragePool.one(self["storagePoolId"])
+
     def get_vtree(self):
         """Returns volume's parent VTree."""
 
