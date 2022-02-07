@@ -1,6 +1,17 @@
 CHANGES
 =======
 
+* Add detailes messages to ScaleIOError message
+* Update Vtree scheme
+* Add volume overwrite method
+* Add VTree migration method
+* Add parent VTree getter to Volume model
+* Add migration info to VTree model
+* Add Storage Pool getter to Volume model
+
+0.1.11
+------
+
 * Ignore unknown fields in ExportsInfo for SIO 3.6 compatibility
 
 0.1.10
