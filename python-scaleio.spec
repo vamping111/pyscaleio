@@ -24,7 +24,7 @@ Python library that provides convenient way to interact with ScaleIO/VxFlex REST
 %define buildid @BUILDID@
 
 Name:    python-scaleio
-Version: 0.1.10
+Version: 0.1.11
 Release: 1.CROC1%{?buildid}%{?dist}
 Summary: ScaleIO/VxFlex API client
 
@@ -138,6 +138,15 @@ export PBR_VERSION=%version
 
 
 %changelog
+* Mon Feb 07 2022 Alexander Chernev  <achernev@croc.ru> - 0.1.11-1
+- Add detailes messages to ScaleIOError message
+- Update Vtree scheme
+- Add volume overwrite method
+- Add VTree migration method
+- Add parent VTree getter to Volume model
+- Add migration info to VTree model
+- Add Storage Pool getter to Volume model
+
 * Mon Jan 10 2022 Andrey Kulaev <akulaev@croc.ru> - 0.1.10-1
 - Ignore unknown fields in ExportsInfo for SIO 3.6 compatibility
 
