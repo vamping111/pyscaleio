@@ -379,14 +379,65 @@ class VTree(BaseResource):
 
     __scheme__ = {
         "name": String(optional=True),
-        "baseVolumeId": String(),
+        "rootVolumes": List(String()),
         "storagePoolId": String(),
     }
 
     __parents__ = frozenset([
-        ("baseVolumeId", "Volume"),
         ("storagePoolId", "StoragePool")
     ])
+
+    @property
+    def migration(self):
+        return MigrationInfo(self["vtreeMigrationInfo"])
+
+    def get_migration_progress(self):
+        return self.get_statistics()["vtreeMigrationProgress"]
+
+
+class MigrationInfo(Mapping):
+    """Information about VTree migrations."""
+
+    STATUS_NOT_IN_MIGRATION = "NotInMigration"
+    STATUS_MIGRATION_NORMAL = "MigrationNormal"
+    STATUS_PENDING_RETRY = "PendingRetry"
+    STATUS_INTERNAL_PAUSING = "InternalPausing"
+    STATUS_GRACEFULLY_PAUSING = "GracefullyPausing"
+    STATUS_FORCEFULLY_PAUSING = "ForcefullyPausing"
+    STATUS_PAUSED = "Paused"
+    STATUS_PENDING_MIGRATION = "PendingMigration"
+    STATUS_PENDING_REBALANCE = "PendingRebalance"
+    """VTree migration statuses."""
+
+    PAUSE_REASON_MIGRATION_ERROR = "MigrationError"
+    PAUSE_REASON_USER_INITIATED = "UserInitiated"
+    PAUSE_REASON_INACTIVE_PD = "InactiveProtectionDomain"
+    PAUSE_REASON_DEGRADED_CAPACITY_IN_PD = "DegradedCapacityInProtectionDomain"
+    PAUSE_REASON_NO_SPACE_IN_DEST_SP = "NoSpaceInDestinationStoragePool"
+    PAUSE_REASON_UNAVAILABLE_CAPACITY_IN_SOURCE_SP = "UnavailableCapacityInSourceStoragePool"
+    PAUSE_REASON_MAINTENANCE_MODE = "MaintenanceMode"
+    PAUSE_REASON_CONNECTIVITY_ERROR = "ConnectivityError"
+    """VTree migration pause reasons."""
+
+    def __init__(self, data=None):
+        self._data = data or {}
+
+    def __getitem__(self, key):
+        return self._data[key]
+
+    def __iter__(self):
+        return iter(self._data)
+
+    def __len__(self):
+        return len(self._data)
+
+    @property
+    def status(self):
+        return self._data["migrationStatus"]
+
+    @property
+    def pause_reason(self):
+        return self._data["migrationPauseReason"]
 
 
 class Sdc(MutableResource):
@@ -682,3 +733,34 @@ class Volume(MutableResource):
         """
 
         return super(Volume, self).delete({"removeMode": mode})
+
+    def overwrite(self, source):
+        """Overwrites volume content with the content of the source Volume.
+        Both Volumes must belong to the same VTree.
+
+        :param source: Source Volume ID.
+        """
+
+        return self.perform("overwriteVolumeContent", {
+            "srcVolumeId": source
+        })
+
+    def migrate(self, dest_sp_id):
+        """Migrates an entire VTree from one Storage Pool to another Storage Pool.
+
+        :param dest_sp_id: Destination Storage Pool ID.
+        """
+
+        self.perform("migrateVTree", {
+            "destSPId": dest_sp_id
+        })
+
+    def get_storage_pool(self):
+        """Returns volume's parent StoragePool."""
+
+        return StoragePool.one(self["storagePoolId"])
+
+    def get_vtree(self):
+        """Returns volume's parent VTree."""
+
+        return VTree.one(self["vtreeId"])

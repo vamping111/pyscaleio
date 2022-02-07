@@ -80,7 +80,8 @@ class ScaleIOSession(object):
         error = self.__response(exc.response, request_uuid)
         raise exceptions.ScaleIOError(error["httpStatusCode"],
                                       error["message"],
-                                      error["errorCode"])
+                                      error_code=error["errorCode"],
+                                      details=error.get("details"))
 
     def __response(self, response, request_uuid):
         """Handle response object."""
