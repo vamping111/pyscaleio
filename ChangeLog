@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+* Add support for koji centos 8.4
+
+0.1.12
+------
+
 * Add detailes messages to ScaleIOError message
 * Update Vtree scheme
 * Add volume overwrite method
