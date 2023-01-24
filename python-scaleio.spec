@@ -2,10 +2,15 @@
 %global project_description %{expand:
 Python library that provides convenient way to interact with ScaleIO/VxFlex REST API.}
 %define buildid @BUILDID@
+%if 0%{?el8}
+%global el_python3_pkgversion 3
+%else
+%global el_python3_pkgversion 36
+%endif
 
 Name:    python-scaleio
-Version: 0.1.12
-Release: 1.CROC1%{?buildid}%{?dist}
+Version: 0.1.11
+Release: 1.CROC2%{?buildid}%{?dist}
 Summary: ScaleIO/VxFlex API client
 
 Group:   Development/Tools
@@ -22,23 +27,14 @@ BuildArch:     noarch
 Summary: ScaleIO API client
 BuildRequires: python%{python3_pkgversion}-devel
 BuildRequires: python%{python3_pkgversion}-setuptools
-%if 0%{?el8}
-Requires: python3-requests >= 2.3
-Requires: python3-object-validator >= 0.1.4
-Requires: python3-psys >= 0.3
-Requires: python3-inflection
-Requires: python3-six
-BuildRequires: python3-six
-BuildRequires: python3-pbr
-%else
-Requires: python36-requests >= 2.3
-Requires: python36-object-validator >= 0.1.4
-Requires: python36-psys >= 0.3
-Requires: python36-inflection
-Requires: python36-six
-BuildRequires: python36-six
-BuildRequires: python36-pbr
-%endif
+BuildRequires: python%{el_python3_pkgversion}-six
+BuildRequires: python%{el_python3_pkgversion}-pbr
+
+Requires: python%{el_python3_pkgversion}-requests >= 2.3
+Requires: python%{el_python3_pkgversion}-object-validator >= 0.1.4
+Requires: python%{el_python3_pkgversion}-psys >= 0.3
+Requires: python%{el_python3_pkgversion}-inflection
+Requires: python%{el_python3_pkgversion}-six
 
 %description -n python%{python3_pkgversion}-scaleio %{project_description}
 
@@ -69,7 +65,7 @@ export PBR_VERSION=%version
 
 
 %changelog
-* Fri Dec 30 2022 Andrey Kulaev <akulaev@croc.ru> - 0.1.12-1
+* Fri Dec 30 2022 Andrey Kulaev <akulaev@croc.ru> - 0.1.11-2
 - Add support for koji centos 8.4 
 
 * Mon Feb 07 2022 Alexander Chernev  <achernev@croc.ru> - 0.1.11-1
