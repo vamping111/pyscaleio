@@ -2,7 +2,7 @@
 %global project_description %{expand:
 Python library that provides convenient way to interact with ScaleIO/VxFlex REST API.}
 %define buildid @BUILDID@
-%if 0%{?el8}
+%if 0%{?el8} || 0%{?redos}
 %global el_python3_pkgversion 3
 %else
 %global el_python3_pkgversion 36
@@ -65,8 +65,11 @@ export PBR_VERSION=%version
 
 
 %changelog
+* Tue Apr 09 2024 Andrey Kulaev <akulaev@croc.ru> - 0.1.11-3
+- Add support for koji redos
+
 * Fri Dec 30 2022 Andrey Kulaev <akulaev@croc.ru> - 0.1.11-2
-- Add support for koji centos 8.4 
+- Add support for koji centos 8.4
 
 * Mon Feb 07 2022 Alexander Chernev  <achernev@croc.ru> - 0.1.11-1
 - Add detailes messages to ScaleIOError message
