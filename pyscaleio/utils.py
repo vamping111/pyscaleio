@@ -1,7 +1,8 @@
 from __future__ import unicode_literals
 
-from collections import MutableMapping, MutableSequence
 from functools import wraps
+
+from pyscaleio.compat import MutableMapping, MutableSequence
 
 
 class singleton(type):

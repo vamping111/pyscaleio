@@ -5,7 +5,7 @@ Python library that provides convenient way to interact with ScaleIO/VxFlex REST
 
 Name:    python-scaleio
 Version: 0.1.12
-Release: 1.ROCKIT2%{?buildid}%{?dist}
+Release: 1.ROCKIT3%{?buildid}%{?dist}
 Summary: ScaleIO/VxFlex API client
 
 Group:   Development/Tools
@@ -60,6 +60,9 @@ export PBR_VERSION=%version
 
 
 %changelog
+* Fri Oct 16 2026 Pavel Kulyov <kulyov.pavel@gmail.com> - 0.1.12-1.ROCKIT3
+- Add Python 3.11 support for RedOS 8.0
+
 * Fri Feb 06 2026 Evgenii Pozdniakov <epozdniakov@k2.cloud> - 0.1.12-1.ROCKIT2
 - Remove el7 support
 
