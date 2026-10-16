@@ -9,13 +9,13 @@ import mock
 import pytest
 import httmock
 
-from collections import Sequence
 from object_validator import String, Integer, DictScheme
 from six import text_type as str
 
 import pyscaleio
 from pyscaleio import constants
 from pyscaleio import exceptions
+from pyscaleio.compat import Sequence
 
 from pyscaleio import ScaleIOClient
 from pyscaleio.manager import ScaleIOClientsManager

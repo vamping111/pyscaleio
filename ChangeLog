@@ -1,6 +1,7 @@
 CHANGES
 =======
 
+* Add Python 3.11 support for RedOS 8.0
 * Add support for koji centos 8.4
 * Add detailes messages to ScaleIOError message
 * Update Vtree scheme

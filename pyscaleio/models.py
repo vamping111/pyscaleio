@@ -1,9 +1,9 @@
 from __future__ import unicode_literals
 
 import os
+
 from six import text_type as str
 from six import string_types
-from collections import Mapping, Sequence
 
 from inflection import camelize, underscore
 from object_validator import validate, ValidationError
@@ -14,6 +14,7 @@ from pyscaleio import config
 from pyscaleio import constants
 from pyscaleio import exceptions
 from pyscaleio import utils
+from pyscaleio.compat import Mapping, Sequence
 
 
 class BaseResource(Mapping):

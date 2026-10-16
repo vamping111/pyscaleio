@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 
-import collections
 import json
 import requests
 
@@ -13,6 +12,7 @@ from psys import Error
 from six import text_type as str
 
 from pyscaleio import exceptions
+from pyscaleio.compat import MutableMapping
 from pyscaleio.client import ScaleIOSession, ScaleIOClient
 from pyscaleio.manager import ScaleIOClientsManager
 import pyscaleio.client
@@ -317,7 +317,7 @@ def test_client_getters(mock_client):
 
     with HTTMock(login_payload, all_instances_payload):
         result = client.get_all_instances()
-        assert isinstance(result, collections.MutableMapping)
+        assert isinstance(result, MutableMapping)
         assert "resourceList" in result
         assert isinstance(result["resourceList"], list)
 
